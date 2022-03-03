@@ -4,14 +4,16 @@ using BlazorShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlazorShop.Data.Migrations
 {
     [DbContext(typeof(BlazorShopDbContext))]
-    partial class BlazorShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220303180435_AddBeerAndBrewery")]
+    partial class AddBeerAndBrewery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,7 +90,7 @@ namespace BlazorShop.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float?>("Abv")
+                    b.Property<float>("Abv")
                         .HasColumnType("real");
 
                     b.Property<int>("BreweryId")
@@ -106,7 +108,7 @@ namespace BlazorShop.Data.Migrations
                     b.Property<string>("ExpirationDays")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<short?>("Ibu")
+                    b.Property<short>("Ibu")
                         .HasColumnType("smallint");
 
                     b.Property<bool>("IsDeleted")
@@ -121,16 +123,13 @@ namespace BlazorShop.Data.Migrations
                     b.Property<string>("Packaging")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("UntappdId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UntappdUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("Volume")
+                    b.Property<float>("Volume")
                         .HasColumnType("real");
 
                     b.HasKey("Id");

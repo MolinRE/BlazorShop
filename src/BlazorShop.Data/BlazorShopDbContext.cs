@@ -22,6 +22,10 @@
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Beer> Beers { get; set; }
+        
+        public DbSet<Brewery> Breweries { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderProduct> OrdersProducts { get; set; }

@@ -1,10 +1,10 @@
-﻿@page "/products/page/{Page:int}"
-@page "/products/search/{SearchQuery}/page/{Page:int}"
-@page "/products/category/{CategoryName}/{CategoryId:int}"
-@page "/products/category/{CategoryName}/{CategoryId:int}/page/{Page:int}"
-@page "/products/category/{CategoryName}/{CategoryId:int}/search/{SearchQuery}/page/{Page:int}"
+﻿@page "/beers/page/{Page:int}"
+@page "/beers/search/{SearchQuery}/page/{Page:int}"
+@page "/beers/category/{BreweryName}/{BreweryId:int}"
+@page "/beers/category/{BreweryName}/{BreweryId:int}/page/{Page:int}"
+@page "/beers/category/{BreweryName}/{BreweryId:int}/search/{SearchQuery}/page/{Page:int}"
 
-@if (products == null || categories == null)
+@if (beers == null || breweries == null)
 {
     <LoadingScreen />
 }
@@ -46,7 +46,7 @@ else
                                 <div class="filter-content collapse show" id="collapse_1">
                                     <div class="card-body">
 
-                                        @foreach (var category in categories)
+                                        @foreach (var category in breweries)
                                         {
                                             var categoryName = category.Name;
                                             var currentCategory = string.Empty;
@@ -139,7 +139,7 @@ else
 
                     <header class="border-bottom mb-4 pb-3">
                         <div class="form-inline">
-                            <span class="mr-md-auto">@products.Count() Items found </span>
+                            <span class="mr-md-auto">@beers.Count() Items found </span>
 
                             <div class="btn-group">
 
@@ -190,19 +190,19 @@ else
                     {
                         <div class="row">
 
-                            @foreach (var product in this.products)
+                            @foreach (var product in this.beers)
                             {
                                 <div class="col-md-4">
                                     <figure class="card card-product-grid">
                                         <div class="img-wrap">
-                                            <img src="@product.ImageSource" />
+                                            @* <img src="@product.Name" /> *@
                                             <span class="topbar">
-                                                <a @onclick="() => AddToWishlist(product.Id)"
-                                                   @onclick:preventDefault
-                                                   href="#"
-                                                   class="float-right">
-                                                    <i class="fa fa-heart"></i>
-                                                </a>
+                                                @* <a @onclick="() => AddToWishlist(product.Id)" *@
+                                                @*    @onclick:preventDefault *@
+                                                @*    href="#" *@
+                                                @*    class="float-right"> *@
+                                                @*     <i class="fa fa-heart"></i> *@
+                                                @* </a> *@
                                             </span>
                                             <a class="btn-overlay" href="/products/@product.Id/@product.Name">
                                                 <i class="fa fa-search-plus"></i>
@@ -219,12 +219,7 @@ else
                                                     @*<del class="price-old">$1980</del>*@
                                                 </div>
                                             </div>
-                                            <a @onclick="() => AddToCart(product.Id)"
-                                               @onclick:preventDefault
-                                               href="#"
-                                               class="btn btn-block btn-primary">
-                                                Add to cart
-                                            </a>
+                                            @* <a @onclick="() => AddToCart(product.Id)" @onclick:preventDefault href="#" class="btn btn-block btn-primary">Add to cart</a> *@
                                         </figcaption>
                                     </figure>
                                 </div>
@@ -234,13 +229,13 @@ else
                     }
                     else
                     {
-                        foreach (var product in this.products)
+                        foreach (var product in this.beers)
                         {
                             <article class="card card-product-list">
                                 <div class="row no-gutters">
                                     <aside class="col-md-3">
                                         <a href="/products/@product.Id/@product.Name" class="img-wrap">
-                                            <img src="@product.ImageSource" />
+                                            @* <img src="@product.ImageSource" /> *@
                                         </a>
                                     </aside>
                                     <div class="col-md-6">
@@ -267,13 +262,10 @@ else
                                                    class="btn btn-primary btn-block">
                                                     Details
                                                 </a>
-                                                <a @onclick="() => AddToWishlist(product.Id)"
-                                                   @onclick:preventDefault
-                                                   href="#"
-                                                   class="btn btn-light btn-block">
-                                                    <i class="fa fa-heart"></i>
-                                                    <span class="text">Add to wishlist</span>
-                                                </a>
+                                                @* <a @onclick="() => AddToWishlist(product.Id)" @onclick:preventDefault href="#" class="btn btn-light btn-block"> *@
+                                                @*     <i class="fa fa-heart"></i> *@
+                                                @*     <span class="text">Add to wishlist</span> *@
+                                                @* </a> *@
                                             </p>
                                         </div>
                                     </aside>

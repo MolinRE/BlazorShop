@@ -28,6 +28,8 @@
 @using BlazorShop.Web.Client.Infrastructure.Services
 @using BlazorShop.Web.Client.Infrastructure.Services.Authentication
 @using BlazorShop.Web.Client.Infrastructure.Services.Addresses
+@using BlazorShop.Web.Client.Infrastructure.Services.Beers
+@using BlazorShop.Web.Client.Infrastructure.Services.Breweries
 @using BlazorShop.Web.Client.Infrastructure.Services.Categories
 @using BlazorShop.Web.Client.Infrastructure.Services.Orders
 @using BlazorShop.Web.Client.Infrastructure.Services.Products
@@ -50,3 +52,5 @@
 @inject IProductsService ProductsService
 @inject IShoppingCartsService ShoppingCartsService
 @inject IWishlistsService WishlistsService
+@inject IBeersService BeersService
+@inject IBreweriesService BreweriesService
