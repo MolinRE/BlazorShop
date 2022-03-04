@@ -25,6 +25,7 @@
         public DbSet<Beer> Beers { get; set; }
         
         public DbSet<Brewery> Breweries { get; set; }
+        public DbSet<BeerStyle> Styles { get; set; }
 
         public DbSet<Order> Orders { get; set; }
 

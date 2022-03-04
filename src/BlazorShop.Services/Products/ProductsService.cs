@@ -107,8 +107,7 @@
             };
         }
 
-        private async Task<int> GetTotalPages(
-            ProductsSearchRequestModel model)
+        private async Task<int> GetTotalPages(ProductsSearchRequestModel model)
         {
             var specification = this.GetProductSpecification(model);
 

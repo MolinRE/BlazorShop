@@ -168,6 +168,11 @@ a:hover {
     letter-spacing: -0.7px;
 }
 
+.beer-style {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
 .content-body {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
@@ -1124,7 +1129,7 @@ a[class*='card'] {
             }
 
     .card-product-grid .fix-height {
-        height: 80px;
+        height: 120px;
         overflow: hidden;
     }
 

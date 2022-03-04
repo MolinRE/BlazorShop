@@ -1,9 +1,9 @@
-﻿namespace BlazorShop.Models.Breweries
+﻿namespace BlazorShop.Models.BeerStyles
 {
     using Common.Mapping;
     using Data.Models;
 
-    public class BreweriesListingResponseModel : IMapFrom<Brewery>
+    public class BeerStylesListingResponseModel : IMapFrom<BeerStyle>
     {
         public int Id { get; set; }
 

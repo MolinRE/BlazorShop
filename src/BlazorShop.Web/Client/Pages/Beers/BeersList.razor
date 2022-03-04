@@ -1,10 +1,13 @@
 ﻿@page "/beers/page/{Page:int}"
 @page "/beers/search/{SearchQuery}/page/{Page:int}"
-@page "/beers/category/{BreweryName}/{BreweryId:int}"
-@page "/beers/category/{BreweryName}/{BreweryId:int}/page/{Page:int}"
-@page "/beers/category/{BreweryName}/{BreweryId:int}/search/{SearchQuery}/page/{Page:int}"
+@page "/beers/brewery/{BreweryName}/{BreweryId:int}"
+@page "/beers/brewery/{BreweryName}/{BreweryId:int}/page/{Page:int}"
+@page "/beers/brewery/{BreweryName}/{BreweryId:int}/search/{SearchQuery}/page/{Page:int}"
+@page "/beers/style/{StyleName}/{StyleId:int}"
+@page "/beers/style/{StyleName}/{StyleId:int}/page/{Page:int}"
+@page "/beers/style/{StyleName}/{StyleId:int}/search/{SearchQuery}/page/{Page:int}"
 
-@if (beers == null || breweries == null)
+@if (beers == null || breweries == null || beerStyles == null)
 {
     <LoadingScreen />
 }
@@ -21,10 +24,10 @@ else
 
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">Search</h5>
+                                <h5 class="card-title">Поиск</h5>
 
                                 <div class="input-group">
-                                    <input @bind-value="SearchQuery" @bind-value:event="oninput" type="text" placeholder="Keyword" class="form-control" />
+                                    <input @bind-value="SearchQuery" @bind-value:event="oninput" type="text" placeholder="Пиво..." class="form-control" />
                                     <span class="input-group-append">
                                         <button class="btn btn-primary">
                                             <i class="fa fa-search"></i>
@@ -35,49 +38,22 @@ else
                         </div>
 
                         <div class="card">
-
                             <article class="filter-group">
                                 <header class="card-header">
                                     <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
                                         <i class="icon-control fa fa-chevron-down"></i>
-                                        <h6 class="title">Categories</h6>
+                                        <h6 class="title"> Стили </h6>
                                     </a>
                                 </header>
-                                <div class="filter-content collapse show" id="collapse_1">
+                                <div class="filter-content collapse show" id="collapse_1" style="">
                                     <div class="card-body">
-
-                                        @foreach (var category in breweries)
-                                        {
-                                            var categoryName = category.Name;
-                                            var currentCategory = string.Empty;
-
-                                            if (NavigationManager.Uri.Contains("/category"))
+                                        <select class="form-select" aria-label="Default select example" @onchange="FilterByStyle">
+                                            <option selected>Выберите стиль</option>
+                                            @foreach (var style in beerStyles)
                                             {
-                                                currentCategory = WebUtility.UrlDecode(NavigationManager.Uri.Split('/')[5]);
+                                                <option value="@style.Value">@style.Name</option>
                                             }
-
-                                            var isChecked = currentCategory == categoryName;
-
-                                            <a href="/products/category/@category.Name/@category.Id" class="text-dark">
-                                                <label class="custom-control custom-radio">
-
-                                                    @if (isChecked)
-                                                    {
-                                                        <input type="radio" name="myfilter_radio" class="custom-control-input" checked />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="radio" name="myfilter_radio" class="custom-control-input">
-                                                    }
-
-                                                    <span class="custom-control-label">
-                                                        @category.Name
-                                                    </span>
-
-                                                </label>
-                                            </a>
-                                        }
-
+                                        </select>
                                     </div>
                                 </div>
                             </article>
@@ -85,16 +61,17 @@ else
                                 <header class="card-header">
                                     <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
                                         <i class="icon-control fa fa-chevron-down"></i>
-                                        <h6 class="title"> Style </h6>
+                                        <h6 class="title"> Пивоварни </h6>
                                     </a>
                                 </header>
                                 <div class="filter-content collapse show" id="collapse_2" style="">
                                     <div class="card-body">
-                                        <select class="form-select" aria-label="Default select example">
-                                          <option selected>Open this select menu</option>
-                                          <option value="1">One</option>
-                                          <option value="2">Two</option>
-                                          <option value="3">Three</option>
+                                        <select class="form-select" aria-label="Default select example" @onchange="FilterByBrewery">
+                                            <option selected>Выберите пивоварню</option>
+                                            @foreach (var brewery in breweries)
+                                            {
+                                                <option value="@brewery.Value">@brewery.Name</option>
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -103,7 +80,7 @@ else
                                 <header class="card-header">
                                     <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
                                         <i class="icon-control fa fa-chevron-down"></i>
-                                        <h6 class="title"> Price range </h6>
+                                        <h6 class="title"> Цена </h6>
                                     </a>
                                 </header>
                                 <div class="filter-content collapse show" id="collapse_3" style="">
@@ -111,12 +88,12 @@ else
                                         <input type="range" @bind-value="model.MinPrice" @bind-value:event="oninput" class="custom-range" min="0" max="@model.MaxPrice" />
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>Min</label>
-                                                <input @bind-value="model.MinPrice" @bind-value:event="oninput" class="form-control" placeholder="$0" type="number" />
+                                                <label>От</label>
+                                                <input @bind-value="model.MinPrice" @bind-value:event="oninput" class="form-control" placeholder="0₽" type="number" />
                                             </div>
                                             <div class="form-group text-right col-md-6">
-                                                <label>Max</label>
-                                                <input @bind-value="model.MaxPrice" @bind-value:event="oninput" class="form-control" placeholder="$1,0000" type="number" />
+                                                <label>До</label>
+                                                <input @bind-value="model.MaxPrice" @bind-value:event="oninput" class="form-control" placeholder="1000₽" type="number" />
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +106,7 @@ else
                            @onclick:preventDefault
                            href="#"
                            class="btn btn-light btn-sm mt-2">
-                            Reset
+                            Сбросить
                         </a>
 
                     </EditForm>
@@ -139,7 +116,7 @@ else
 
                     <header class="border-bottom mb-4 pb-3">
                         <div class="form-inline">
-                            <span class="mr-md-auto">@beers.Count() Items found </span>
+                            <span class="mr-md-auto">Найдено товаров: @beers.Count() </span>
 
                             <div class="btn-group">
 
@@ -190,12 +167,12 @@ else
                     {
                         <div class="row">
 
-                            @foreach (var product in this.beers)
+                            @foreach (var beer in this.beers)
                             {
                                 <div class="col-md-4">
                                     <figure class="card card-product-grid">
                                         <div class="img-wrap">
-                                            @* <img src="@product.Name" /> *@
+                                            <img src="images/untappd/common.png" />
                                             <span class="topbar">
                                                 @* <a @onclick="() => AddToWishlist(product.Id)" *@
                                                 @*    @onclick:preventDefault *@
@@ -204,18 +181,19 @@ else
                                                 @*     <i class="fa fa-heart"></i> *@
                                                 @* </a> *@
                                             </span>
-                                            <a class="btn-overlay" href="/products/@product.Id/@product.Name">
+                                            <a class="btn-overlay" href="/beers/@beer.Id/@beer.Name">
                                                 <i class="fa fa-search-plus"></i>
-                                                Quick view
+                                                Подробнее
                                             </a>
                                         </div>
                                         <figcaption class="info-wrap">
                                             <div class="fix-height">
-                                                <a href="/products/@product.Id/@product.Name" class="title">
-                                                    @product.Name
+                                                <a href="/beers/@beer.Id/@beer.Name" class="title">
+                                                    @beer.BreweryName - @beer.Name
                                                 </a>
+                                                <span class="beer-style">@beer.StyleName</span>
                                                 <div class="price-wrap mt-2">
-                                                    <span class="price">$@product.Price</span>
+                                                    <span class="price">@beer.Price₽</span>
                                                     @*<del class="price-old">$1980</del>*@
                                                 </div>
                                             </div>
@@ -229,38 +207,38 @@ else
                     }
                     else
                     {
-                        foreach (var product in this.beers)
+                        foreach (var beer in this.beers)
                         {
                             <article class="card card-product-list">
                                 <div class="row no-gutters">
                                     <aside class="col-md-3">
-                                        <a href="/products/@product.Id/@product.Name" class="img-wrap">
-                                            @* <img src="@product.ImageSource" /> *@
+                                        <a href="/beers/@beer.Id/@beer.Name" class="img-wrap">
+                                            <img src="images/untappd/common.png" />
                                         </a>
                                     </aside>
                                     <div class="col-md-6">
                                         <div class="info-main">
-                                            <a href="/products/@product.Id/@product.Name" class="h5 title">
-                                                @product.Name
+                                            <a href="/beers/@beer.Id/@beer.Name" class="h5 title">
+                                                @beer.Name
                                             </a>
 
-                                            <p> @product.Description </p>
+                                            <p> @beer.Description </p>
                                         </div>
                                     </div>
                                     <aside class="col-sm-3">
                                         <div class="info-aside">
                                             <div class="price-wrap">
-                                                <span class="price h5"> $@product.Price </span>
+                                                <span class="price h5"> @beer.Price₽</span>
                                                 @*<del class="price-old"> $198</del>*@
                                             </div>
-                                            <p class="text-success">Free shipping</p>
+                                            @* <p class="text-success">Free shipping</p> *@
 
                                             <br />
 
                                             <p>
-                                                <a href="/products/@product.Id/@product.Name"
+                                                <a href="/beers/@beer.Id/@beer.Name"
                                                    class="btn btn-primary btn-block">
-                                                    Details
+                                                    Подробнее
                                                 </a>
                                                 @* <a @onclick="() => AddToWishlist(product.Id)" @onclick:preventDefault href="#" class="btn btn-light btn-block"> *@
                                                 @*     <i class="fa fa-heart"></i> *@

@@ -11,7 +11,7 @@
 
         private const string BeersPath = "api/beers";
         private const string BeersPathWithSlash = BeersPath + "/";
-        private const string BeersSearchPath = BeersPath + "?brewery={0}&minPrice={1}&maxPrice={2}&query={3}&page={4}";
+        private const string BeersSearchPath = BeersPath + "?brewery={0}&style={1}&minPrice={2}&maxPrice={3}&query={4}&page={5}";
 
         public BeersService(HttpClient http) => this.http = http;
 
@@ -27,6 +27,7 @@
                 string.Format(
                     BeersSearchPath,
                     model.Brewery,
+                    model.Style,
                     model.MinPrice,
                     model.MaxPrice,
                     model.Query,

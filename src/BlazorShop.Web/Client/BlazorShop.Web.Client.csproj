@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\BlazorShop.Models\BlazorShop.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\untappd" />
+  </ItemGroup>
+
 </Project>

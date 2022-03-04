@@ -11,9 +11,9 @@ namespace BlazorShop.Services.Beers
 	using Specifications;
 	using Microsoft.EntityFrameworkCore;
 	
-	class BeersService : BaseService<Beer>, IBeersService
+	public class BeersService : BaseService<Beer>, IBeersService
 	{
-		private const int ProductsPerPage = 6;
+		private const int BeersPerPage = 15;
 		
 		public BeersService(BlazorShopDbContext data, IMapper mapper) : base(data, mapper)
 		{
@@ -27,8 +27,8 @@ namespace BlazorShop.Services.Beers
 				.ProjectTo<BeersListingResponseModel>(this
 					.AllAsNoTracking()
 					.Where(specification)
-					.Skip((model.Page - 1) * ProductsPerPage)
-					.Take(ProductsPerPage))
+					.Skip((model.Page - 1) * BeersPerPage)
+					.Take(BeersPerPage))
 				.ToListAsync();
 
 			var totalPages = await this.GetTotalPages(model);
@@ -54,13 +54,14 @@ namespace BlazorShop.Services.Beers
 
 			var total = await this.AllAsNoTracking().Where(specification).CountAsync();
 
-			return (int)Math.Ceiling((double)total / ProductsPerPage);
+			return (int)Math.Ceiling((double)total / BeersPerPage);
 		}
 
 		private Specification<Beer> GetBeerSpecification(BeersSearchRequestModel model)
 		{
 			return new BeerByNameSpecification(model.Query)
 				.And(new BeerByPriceSpecification(model.MinPrice, model.MaxPrice))
+				.And(new BeerByStyleSpecification(model.Style))
 				.And(new BeerByBrewerySpecification(model.Brewery));
 		}
 	}

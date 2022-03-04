@@ -1,4 +1,8 @@
-﻿namespace BlazorShop.Web.Client.Infrastructure.Extensions
+﻿using BlazorShop.Web.Client.Infrastructure.Services.Beers;
+using BlazorShop.Web.Client.Infrastructure.Services.BeerStyles;
+using BlazorShop.Web.Client.Infrastructure.Services.Breweries;
+
+namespace BlazorShop.Web.Client.Infrastructure.Extensions
 {
     using System;
     using System.Net.Http;
@@ -47,6 +51,9 @@
                 .AddTransient<IProductsService, ProductsService>()
                 .AddTransient<IShoppingCartsService, ShoppingCartsService>()
                 .AddTransient<IWishlistsService, WishlistsService>()
+                .AddTransient<IBeersService, BeersService>()
+                .AddTransient<IBreweriesService, BreweriesService>()
+                .AddTransient<IBeerStylesService, BeerStylesService>()
                 .AddTransient<AuthenticationHeaderHandler>()
                 .AddHttpClient(
                     ClientName,

@@ -11,6 +11,7 @@ namespace BlazorShop.Data.Models
 		public short? Ibu { get; set; }
 		public string Description { get; set; }
 		public decimal? Price { get; set; }
+		public int? UntappdId { get; set; }
 		public string UntappdUrl { get; set; }
 		public string Packaging { get; set; }
 		public float? Volume { get; set; }
@@ -18,6 +19,8 @@ namespace BlazorShop.Data.Models
         
 		public int BreweryId { get; set; }
 		public Brewery Brewery { get; set; }
-		public int? UntappdId { get; set; }
+
+		public int StyleId { get; set; }
+		public BeerStyle Style { get; set; }
 	}
 }

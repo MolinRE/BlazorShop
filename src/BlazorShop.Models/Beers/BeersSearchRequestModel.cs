@@ -6,6 +6,8 @@ namespace BlazorShop.Models.Beers
 
 		public int? Brewery { get; set; }
 
+		public int? Style { get; set; }
+
 		public decimal? MinPrice { get; set; }
 
 		public decimal? MaxPrice { get; set; }

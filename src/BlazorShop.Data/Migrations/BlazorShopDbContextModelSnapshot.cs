@@ -124,6 +124,9 @@ namespace BlazorShop.Data.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("StyleId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("UntappdId")
                         .HasColumnType("int");
 
@@ -137,7 +140,38 @@ namespace BlazorShop.Data.Migrations
 
                     b.HasIndex("BreweryId");
 
+                    b.HasIndex("StyleId");
+
                     b.ToTable("Beers");
+                });
+
+            modelBuilder.Entity("BlazorShop.Data.Models.BeerStyle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Styles");
                 });
 
             modelBuilder.Entity("BlazorShop.Data.Models.BlazorShopRole", b =>
@@ -639,6 +673,12 @@ namespace BlazorShop.Data.Migrations
                     b.HasOne("BlazorShop.Data.Models.Brewery", "Brewery")
                         .WithMany("Beers")
                         .HasForeignKey("BreweryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BlazorShop.Data.Models.BeerStyle", "Style")
+                        .WithMany("Beers")
+                        .HasForeignKey("StyleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
